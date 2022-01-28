@@ -3,9 +3,8 @@ const Movie = require('../models/movie.model');
 exports.create = (req, res) => {
     const movie = new Movie({
         title: req.body.title,
-        price: req.body.price,
         description: req.body.description,
-        img: req.body.img,
+        duration: req.body.duration,
         categories: req.body.categories
     });
 
@@ -62,9 +61,8 @@ exports.updateOne = (req, res) => {
       req.params.id,
       {
         title: req.body.title,
-        price: req.body.price,
         description: req.body.description,
-        img: req.body.img,
+        duration: req.body.duration,
         categories: req.body.categories
       }
     )

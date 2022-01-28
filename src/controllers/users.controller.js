@@ -11,7 +11,8 @@ exports.create = (req, res) => {
             lastName: req.body.lastName,
             email: req.body.email,
             password: hash,
-            isAdmin: req.body.isAdmin
+            isAdmin: req.body.isAdmin,
+            abonnement: req.body.abonnement
         });
         user.save()
             .then((data) => {
@@ -25,7 +26,7 @@ exports.create = (req, res) => {
             );
             res.send({
             token:userToken,
-             auth: true
+            auth: true
          })
     })
     .catch((err) => {

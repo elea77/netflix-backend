@@ -4,13 +4,11 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     firstName: {
         type: String,
-        required: true,
-        lowercase: true,
+        required: true
     },
     lastName: {
         type: String,
-        required: true,
-        lowercase: true,
+        required: true
     },
     password: {
         type: String,
@@ -23,6 +21,14 @@ const userSchema = new Schema({
     isAdmin: {
         type: Boolean,
         required: true,
+    },
+    abonnement: {
+        type: String,
+        required: true
+    },
+    wishlist: {
+        type: Schema.Types.ObjectId,
+        ref: 'Wishlist'
     }
 });
 

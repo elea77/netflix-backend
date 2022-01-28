@@ -17,10 +17,10 @@ const movieSchema = new Schema({
         required: true,
         unique: true
     },
-    categories: {
+    categories: [{
         type: Schema.Types.ObjectId,
         ref: 'Category'
-    }
+    }]
 });
 
 module.exports = mongoose.model('Movie', movieSchema);
