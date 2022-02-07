@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const movie = require('../controllers/movies.controller');
-const verifyAdminToken = require('../middlewares/verifyAdminToken');
+const verifyAdminToken = require('../middlewares/VerifyAdminToken;
 
 router.post('/movies', verifyAdminToken, movie.create);
 router.get('/movies', movie.getAll);
