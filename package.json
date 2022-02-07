@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./src/app.js",
-    "start": "node ./src/app.js"
+    "dev": "nodemon --exec babel-node ./src/app.js",
+    "build": "babel -d ./build ./src",
+    "start": "npm run build && node ./build/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,10 @@
     "nodemon": "^2.0.15"
   },
   "dependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
     "apollo-server": "^3.3.0",
     "apollo-server-express": "^2.25.3",
     "bcrypt": "^5.0.1",

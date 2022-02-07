@@ -30,7 +30,7 @@ exports.create = (req, res) => {
          })
     })
     .catch((err) => {
-        console.log(err.message);    
+        console.log("msg:" + err.message);    
         res.status(500).send({
             error: 500,
             message: err.message || "some error occured while creating user"
@@ -65,6 +65,21 @@ exports.getOne = (req, res) => {
         });
       }
       res.send(data);
+    })
+    .catch((err) => res.send(err));
+}
+
+exports.getOneByEmail = (req, res) => {
+    User.findOne({email: req.params.email})
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({
+          message: false,
+        });
+      }
+      res.status(200).send({
+        message: true,
+      });
     })
     .catch((err) => res.send(err));
 }
