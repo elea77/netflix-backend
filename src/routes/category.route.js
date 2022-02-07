@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const category = require('../controllers/categories.controller');
-const verifyAdminToken = require('../middlewares/VerifyAdminToken;
+const verifyAdminToken = require('../middlewares/VerifyAdminToken');
 
 router.post('/categories', verifyAdminToken, category.create);
 router.get('/categories', category.getAll);

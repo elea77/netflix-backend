@@ -3,7 +3,7 @@ const router = express.Router();
 const user = require('../controllers/users.controller');
 const verifyUserToken = require('../middlewares/VerifyUserToken');
 const validationSchema = require('../middlewares/validators/users.validation');
-const verifyAdminToken = require('../middlewares/VerifyAdminToken;
+const verifyAdminToken = require('../middlewares/VerifyAdminToken');
 
 router.post('/users', validationSchema, user.create);
 router.get('/users', verifyUserToken, user.getAll);
