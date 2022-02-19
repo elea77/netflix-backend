@@ -1,19 +1,27 @@
 const Movie = require('../models/movie.model');
+const Category = require('../models/category.model');
 
 exports.create = (req, res) => {
     const movie = new Movie({
         title: req.body.title,
         description: req.body.description,
         duration: req.body.duration,
+        date: req.body.date,
         categories: req.body.categories
     });
 
     movie.save()
     .then((data) => {
-        res.send({
-            movie: data,
-            created: true
-        })
+      Category.findByIdAndUpdate(req.body.categories, {$push: {movies: data._id}}).then(() => {
+          res.send({
+              data: data,
+          })
+          .catch((err) => res.send(err));
+      });
+      res.send({
+          data: data,
+          created: true
+      })
     })
     .catch((err) => {
         console.log(err.message);    
@@ -56,6 +64,7 @@ exports.getOne = (req, res) => {
 
 exports.updateOne = (req, res) => {
     var movie = Movie.findById(req.params.id)
+    var category = Category.findById(req.params.id)
   
     Movie.findByIdAndUpdate(
       req.params.id,
@@ -63,6 +72,17 @@ exports.updateOne = (req, res) => {
         title: req.body.title,
         description: req.body.description,
         duration: req.body.duration,
+        date: req.body.date,
+        categories: req.body.categories
+      }
+    )
+    Category.findByIdAndUpdate(
+      req.params.id,
+      {
+        title: req.body.title,
+        description: req.body.description,
+        duration: req.body.duration,
+        date: req.body.date,
         categories: req.body.categories
       }
     )

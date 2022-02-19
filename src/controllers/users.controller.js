@@ -73,7 +73,7 @@ exports.getOneByEmail = (req, res) => {
     User.findOne({email: req.params.email})
     .then((data) => {
       if (!data) {
-        res.status(404).send({
+        res.status(200).send({
           message: false,
         });
       }

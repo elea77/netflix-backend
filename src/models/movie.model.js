@@ -10,12 +10,17 @@ const movieSchema = new Schema({
     description: {
         type: String,
         required: true,
-        unique: true
+        unique: false
     },
     duration: {
         type: String,
         required: true,
-        unique: true
+        unique: false
+    },
+    date: {
+        type: Number,
+        required: true,
+        unique: false
     },
     categories: [{
         type: Schema.Types.ObjectId,
