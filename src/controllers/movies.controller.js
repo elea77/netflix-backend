@@ -64,19 +64,8 @@ exports.getOne = (req, res) => {
 
 exports.updateOne = (req, res) => {
     var movie = Movie.findById(req.params.id)
-    var category = Category.findById(req.params.id)
   
     Movie.findByIdAndUpdate(
-      req.params.id,
-      {
-        title: req.body.title,
-        description: req.body.description,
-        duration: req.body.duration,
-        date: req.body.date,
-        categories: req.body.categories
-      }
-    )
-    Category.findByIdAndUpdate(
       req.params.id,
       {
         title: req.body.title,
