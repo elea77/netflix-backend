@@ -22,6 +22,12 @@ const movieSchema = new Schema({
         required: true,
         unique: false
     },
+    img: {
+        type: String
+    },
+    video: {
+        type: String
+    },
     categories: [{
         type: Schema.Types.ObjectId,
         ref: 'Category'

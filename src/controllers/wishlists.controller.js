@@ -33,7 +33,7 @@ exports.create = (req, res) => {
 
 exports.getAll = (req, res) => {
     Wishlist.find({})
-    .populate('products')
+    .populate('movies')
     .populate('user')
     .then(
         (data) => {
@@ -65,28 +65,3 @@ exports.getOne = (req, res) => {
     })
 }
 
-
-
-// exports.updateOne = (req, res) => {
-//     var wishlist = Wishlist.findById(req.params.id)
-  
-//     Wishlist.findByIdAndUpdate(
-//       req.params.id,
-//       {
-//         status: req.body.status
-//       }
-//     )
-//     .then((data) => {
-//       wishlist
-//       res.send({
-//         wishlist: data
-//       })
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         error: 500,
-//         message: err.message || "NULL"
-//         })
-//     })  
-// };
-  

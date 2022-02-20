@@ -7,6 +7,8 @@ exports.create = (req, res) => {
         description: req.body.description,
         duration: req.body.duration,
         date: req.body.date,
+        img: req.body.img,
+        video: req.body.video,
         categories: req.body.categories
     });
 
@@ -47,6 +49,20 @@ exports.getAll = (req, res) => {
     );
 }
 
+exports.getAllByCategory = (req, res) => {
+  var id = req.params.id;
+  Movie.find({categories: id}).then(
+    (data) => {
+      res.status(200).json(data);
+    }
+  ).catch(
+      (error) => {
+        res.status(400).json({
+          error: error
+        });
+      }
+  );
+}
 
 exports.getOne = (req, res) => {
     var id = req.params.id;
@@ -72,6 +88,8 @@ exports.updateOne = (req, res) => {
         description: req.body.description,
         duration: req.body.duration,
         date: req.body.date,
+        img: req.body.img,
+        video: req.body.video,
         categories: req.body.categories
       }
     )
