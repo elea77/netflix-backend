@@ -60,8 +60,7 @@ exports.create = (req, res) => {
 
 
 exports.getOne = (req, res) => {
-    Wish.findOne({ user: req.body.user })
-        .populate('movies')
+    Wishlist.findById(req.params.id)
     .then((data) => {
         res.send(data);
 
