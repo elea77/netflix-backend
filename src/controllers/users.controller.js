@@ -56,11 +56,11 @@ exports.getAll = (req, res) => {
 
 
 exports.getOne = (req, res) => {
-    User.findById(req.params.id)
+    User.findById(req.user.id)
     .then((data) => {
       if (!data) {
         res.status(404).send({
-          message: `User with id ${req.params.id} not found`,
+          message: `User with id ${req.user.id} not found`,
           // message:"User with id" + req.params.id +"not found"
         });
       }
@@ -174,3 +174,12 @@ exports.deleteOne = (req, res) => {
     .catch((err) => res.send(err));
   
 };
+
+exports.verifyToken = (req, res) => {
+  if (req.user) {
+    res.status(200).json({
+      verify:true,
+      isAdmin: req.user.isAdmin
+    })
+  }
+}
