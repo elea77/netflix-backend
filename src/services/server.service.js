@@ -1,22 +1,29 @@
 require('dotenv').config();
-const express = require('express');
+const port = process.env.PORT;
+const express = require("express");
+const cors = require("cors");
+const apiRouter = require("../routes");
+
 const app = express();
-const apiRouter = require('../routes');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+
+app.use(cors());
+// app.use(bodyParser.json());
+
+app.use(function (req, res, next) {
+  if (req.originalUrl === "/api/v1/webhooks/stripe") {
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
+app.use("/api/v1/", apiRouter);
 
 exports.start = () => {
-    
-    const port = process.env.PORT;
-    app.use(cors());
-    app.use(bodyParser.json());
-    app.use('/api/v1', apiRouter);
-
-    app.listen(port, (err) => {
-        if (err) {
-            console.log(`Error : ${err}`);
-            process.exit();
-        }
-        console.log(`app is running on port ${port}`);
-    })
-}
+  app.listen(port, (err) => {
+    if (err) {
+      console.log(`Errors: ${err}`);
+      process.exit(-1);
+    }
+    console.log(`app is runnning on port ${port}`);
+  });
+};

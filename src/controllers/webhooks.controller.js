@@ -1,18 +1,19 @@
-const stripe = require("stripe")(process.env.STRIPE_SK);
+const stripe = require("stripe")("sk_test_51IYAwmJ5UFJGtqNY5XAkZV7YcOxeb9DBVOYHBpFEQw7Hl5sUOm7Y0MtEEzH8ZMlqhS6SXLlzHYFmxoI1cWvfpcpL00u6751kXb");
 const Order = require("../models/order.model");
 
 exports.stripewebhook = (req, res) => {
-
+  
   let data;
   let eventType;
-
-  const webhookSecret = process.env.WEBHOOKSECRET;
+  
+  // const webhookSecret = process.env.WEBHOOKSECRET;
+  const webhookSecret = "whsec_613accc209a25345fe8d3135de199891693d5e9db387f5dce865900e997e3df2";
 
   if (webhookSecret) {
 
     let event;
     let signature = req.headers["stripe-signature"];
-
+    
     try {
       event = stripe.webhooks.constructEvent(
         req.body,
