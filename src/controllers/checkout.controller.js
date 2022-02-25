@@ -2,26 +2,23 @@ const config = require('../configs/checkout.config');
 const stripe = require('stripe')(config.stripe.sk);
 
 const initiateStripeSession = async (req) => {
-  const priceDataArray = [];
 
-  req.body.cart.forEach(element => {
-    priceDataArray.push({
-      price_data: {
-        currency: "eur",
-        product_data: {
-          name: element.title
-        },
-        unit_amount: element.price * 100,
+  const priceDataArray = [{
+    price_data: {
+      currency: "eur",
+      product_data: {
+        name: req.body.abonnement
       },
-      quantity: element.qty
-    })
-  });
+      unit_amount: req.body.total * 100,
+    },
+    quantity: 1
+  }]
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: priceDataArray, 
     payment_intent_data: {
-      metadata: { userId: req.user.id, cart: JSON.stringify(req.body.cart) },
+      metadata: { userId: req.user.id, abonnement: JSON.stringify(req.body) },
     },
     mode: "payment",
     success_url: `${config.stripe.next_url}/confirmation?amount=${req.body.total}`,
@@ -32,7 +29,7 @@ const initiateStripeSession = async (req) => {
 }
 
 exports.createSession = async function (req, res) {
-    try {
+  try {
       const session = await initiateStripeSession(req);
       res.status(200).json({
         id: session.id,
