@@ -1,19 +1,18 @@
-const stripe = require("stripe")("sk_test_51IYAwmJ5UFJGtqNY5XAkZV7YcOxeb9DBVOYHBpFEQw7Hl5sUOm7Y0MtEEzH8ZMlqhS6SXLlzHYFmxoI1cWvfpcpL00u6751kXb");
-const Order = require("../models/order.model");
+const config = require('../configs/checkout.config');
+const stripe = require('stripe')(config.stripe.sk);
 
 exports.stripewebhook = (req, res) => {
   
   let data;
   let eventType;
-  
-  // const webhookSecret = process.env.WEBHOOKSECRET;
-  const webhookSecret = "whsec_613accc209a25345fe8d3135de199891693d5e9db387f5dce865900e997e3df2";
+  const event = req.body;
+
+  const webhookSecret = process.env.WEBHOOKSECRET;
 
   if (webhookSecret) {
 
     let event;
     let signature = req.headers["stripe-signature"];
-    
     try {
       event = stripe.webhooks.constructEvent(
         req.body,
@@ -31,27 +30,26 @@ exports.stripewebhook = (req, res) => {
     eventType = req.body.type;
   }
 
+  let subscription;
+  let status;
   switch (eventType) {
 
-    case "payment_intent.succeeded":
+    case 'customer.subscription.created':
+      console.log(data.object);
+      console.log("metadata", data.object.metadata);
+      // subscription = event.data.object;
+      // status = subscription.status;
+      // console.log(`Subscription status is ${status}.`);
+      // Then define and call a method to handle the subscription created.
+      // handleSubscriptionCreated(subscription);
+      break;
 
-      const productIdArray = [];
-      
-      JSON.parse(data.object.metadata.cart).forEach(element => {
-        productIdArray.push(element.id);
-      });
-      
-      const newOrder = new Order({
-        amount: data.object.amount / 100,
-        date: data.object.created,
-        user: data.object.metadata.userId,
-        products: productIdArray,
-        stripeId: data.object.id,
-        status: data.object.status
-      });
-
-      newOrder.save().then((data) => console.log(data)).then(err => console.log(err));
-    
+    case 'customer.subscription.updated':
+      console.log(data.object);
+      console.log("metadata", data.object.metadata);
+      // console.log(`Subscription status is ${status}.`);
+      // Then define and call a method to handle the subscription update.
+      // handleSubscriptionUpdated(subscription);
       break;
     
     default:

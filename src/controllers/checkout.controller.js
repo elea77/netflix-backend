@@ -1,30 +1,32 @@
 const config = require('../configs/checkout.config');
-// const stripe = require('stripe')(config.stripe.sk);
-const stripe = require('stripe')("sk_test_51IYAwmJ5UFJGtqNY5XAkZV7YcOxeb9DBVOYHBpFEQw7Hl5sUOm7Y0MtEEzH8ZMlqhS6SXLlzHYFmxoI1cWvfpcpL00u6751kXb");
+const stripe = require('stripe')(config.stripe.sk);
 
 const initiateStripeSession = async (req) => {
-  const priceDataArray = [
-    {
-      price_data: {
-        currency: "eur",
-        product_data: {
-          name: req.body.abonnement,
-        },
-        unit_amount: req.body.total * 100,
-      },
-      quantity: 1,
-    },
-  ];
+  const prices = await stripe.prices.list({
+    lookup_keys: [req.body.lookup_key],
+    expand: ['data.product'],
+  });
+
+  // console.log("token", req.headers.authorization);
+  // console.log("user id",req.user.id);
+
+  const filteredResult = prices.data.find((e) => e.lookup_key == req.body.abonnement);
 
   const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    line_items: priceDataArray,
-    payment_intent_data: {
-      metadata: { userId: req.user.id, abonnement: JSON.stringify(req.body) },
+    billing_address_collection: 'auto',
+    line_items: [
+      {
+        price: filteredResult.id,
+        quantity: 1,
+      },
+    ],
+    metadata: {
+      userId: req.user.id,
+      token: req.headers.authorization
     },
-    mode: "payment",
-    success_url: `http://localhost:3000/confirmation?amount=${req.body.total}`,
-    cancel_url: `http://localhost:3000/cancel`,
+    mode: 'subscription',
+    success_url: `${config.stripe.next_url}/checkout/confirmation?amount=${req.body.total}`,
+    cancel_url: `${config.stripe.next_url}/checkout/cancel`,
   });
 
   return session;

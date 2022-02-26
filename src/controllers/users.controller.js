@@ -140,7 +140,8 @@ exports.updateOne = (req, res) => {
     {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      email: req.body.email
+      email: req.body.email,
+      abonnement: req.body.abonnement
     }
   )
   .then((data) => {
@@ -153,9 +154,8 @@ exports.updateOne = (req, res) => {
     res.status(500).send({
       error: 500,
       message: err.message || "NULL"
-      })
+    })
   })
-  
 };
 
 
