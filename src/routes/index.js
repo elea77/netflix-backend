@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const verifyUserToken = require('../middlewares/VerifyUserToken');
 const userRouter = require('./user.route');
 const movieRouter = require('./movie.route');
 const categoryRouter = require('./category.route');
