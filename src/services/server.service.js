@@ -6,10 +6,7 @@ const apiRouter = require("../routes");
 
 const app = express();
 
-app.use(cors());
-
-const verifyUserToken = require('../middlewares/verifyUserToken');
-
+app.use("*", cors());
 
 app.use(function (req, res, next) {
   if (req.originalUrl === "/api/v1/webhooks/stripe") {
