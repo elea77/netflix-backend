@@ -7,9 +7,6 @@ const initiateStripeSession = async (req) => {
     expand: ['data.product'],
   });
 
-  // console.log("token", req.headers.authorization);
-  // console.log("user id",req.user.id);
-
   const filteredResult = prices.data.find((e) => e.lookup_key == req.body.abonnement);
 
   const session = await stripe.checkout.sessions.create({
@@ -20,10 +17,6 @@ const initiateStripeSession = async (req) => {
         quantity: 1,
       },
     ],
-    metadata: {
-      userId: req.user.id,
-      token: req.headers.authorization
-    },
     mode: 'subscription',
     success_url: `${config.stripe.next_url}/checkout/confirmation?amount=${req.body.total}`,
     cancel_url: `${config.stripe.next_url}/checkout/cancel`,

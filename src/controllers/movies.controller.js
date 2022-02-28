@@ -36,7 +36,8 @@ exports.create = (req, res) => {
 }
 
 exports.getAll = (req, res) => {
-    Movie.find().then(
+    Movie.find().populate('categories')
+    .then(
         (data) => {
           res.status(200).json(data);
         }
