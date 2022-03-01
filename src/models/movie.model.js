@@ -9,18 +9,15 @@ const movieSchema = new Schema({
     },
     description: {
         type: String,
-        required: true,
-        unique: false
+        required: true
     },
     duration: {
         type: String,
-        required: true,
-        unique: false
+        required: true
     },
     date: {
         type: Number,
-        required: true,
-        unique: false
+        required: true
     },
     img: {
         type: String

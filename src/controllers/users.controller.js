@@ -56,7 +56,7 @@ exports.getAll = (req, res) => {
 
 
 exports.getOne = (req, res) => {
-    User.findById(req.user.id)
+    User.findById(req.user.id).populate('wishlist')
     .then((data) => {
       if (!data) {
         res.status(404).send({
